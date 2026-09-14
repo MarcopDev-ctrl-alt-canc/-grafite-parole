@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grafite Parole — Sfida</title>
+<!--
+  Pagina ponte per le sfide, sulla falsariga di quella di Grafite Sudoku.
+
+  A cosa serve: WhatsApp e Telegram non aprono i link con schema custom
+  (grafiteparole://) direttamente. Quindi si condivide un normale link https
+  a questa pagina, e la pagina rimbalza sull'app.
+
+  Come pubblicarla:
+  1. carica questo file su GitHub Pages in una sottocartella "Sfida"
+     (attenzione alle maiuscole: GitHub Pages distingue Sfida da sfida);
+  2. metti l'indirizzo risultante in PuzzleFactory.challengeLinkBase
+     (lib/state/puzzle_factory.dart);
+  3. l'app risponde allo schema grafiteparole:// grazie all'intent-filter in
+     android/app/src/main/AndroidManifest.xml.
+
+  Nessuno script di analisi, nessun cookie, nessuna chiamata esterna: il
+  codice sfida resta nell'URL e non viene mandato a nessun server.
+-->
+<style>
+  :root {
+    --paper: #F2ECDD;
+    --paper-line: #D8CFB8;
+    --ink: #201A16;
+    --ink-soft: #4A4038;
+    --pen: #3C5A92;
+    --gold: #C99A3E;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #14181F;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+  }
+  .sheet {
+    width: 100%;
+    max-width: 460px;
+    background: var(--paper);
+    border: 1px solid var(--paper-line);
+    border-radius: 14px;
+    padding: 28px 24px 24px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.45);
+  }
+  h1 { margin: 0 0 4px; font-size: 25px; letter-spacing: .3px; }
+  .tag { margin: 0 0 22px; font-size: 14px; color: var(--ink-soft); }
+  .code-label { font-size: 12px; letter-spacing: 1.3px; text-transform: uppercase;
+    color: var(--ink-soft); font-weight: 700; margin-bottom: 6px; }
+  .code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 19px; font-weight: 700; letter-spacing: 1px;
+    background: rgba(0,0,0,.05);
+    border: 1px dashed var(--paper-line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    word-break: break-all;
+    margin-bottom: 20px;
+  }
+  a.button, button {
+    display: block; width: 100%;
+    font: inherit; font-size: 16px; font-weight: 700;
+    text-align: center; text-decoration: none;
+    padding: 15px 16px; border-radius: 10px; border: 0;
+    margin-bottom: 10px; cursor: pointer;
+  }
+  a.primary { background: var(--gold); color: #14181F; }
+  button.ghost { background: transparent; color: var(--pen);
+    border: 1.5px solid var(--pen); }
+  .hint { font-size: 13px; line-height: 1.5; color: var(--ink-soft); margin: 16px 0 0; }
+  .missing { font-size: 15px; line-height: 1.55; }
+  .copied { color: var(--pen); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="sheet" id="sheet"></div>
+
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var code = (params.get('c') || '').trim().toUpperCase();
+  var sheet = document.getElementById('sheet');
+
+  if (!code) {
+    sheet.innerHTML =
+      '<h1>Grafite Parole</h1>' +
+      '<p class="missing">Questo link non contiene nessun codice sfida. ' +
+      'Chiedi al tuo amico di rimandartelo.</p>';
+    return;
+  }
+
+  var deepLink = 'grafiteparole://sfida?c=' + encodeURIComponent(code);
+
+  sheet.innerHTML =
+    '<h1>Ti hanno sfidato ⚔️</h1>' +
+    '<p class="tag">Stessa griglia, stesso schema. Decide il cronometro.</p>' +
+    '<div class="code-label">Codice sfida</div>' +
+    '<div class="code" id="code">' + code + '</div>' +
+    '<a class="button primary" id="open" href="' + deepLink + '">▶️ Apri in Grafite Parole</a>' +
+    '<button class="ghost" id="copy">📋 Copia il codice</button>' +
+    '<p class="hint">Se non si apre da sola: installa Grafite Parole, ' +
+    'poi copia il codice qui sopra e incollalo in <b>Duello</b> dentro l\'app.</p>';
+
+  document.getElementById('copy').addEventListener('click', function () {
+    var button = this;
+    var done = function () {
+      button.textContent = '✓ Codice copiato';
+      button.classList.add('copied');
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(done, done);
+    } else {
+      // Ripiego per i browser vecchi dentro le app di messaggistica.
+      var input = document.createElement('textarea');
+      input.value = code;
+      document.body.appendChild(input);
+      input.select();
+      try { document.execCommand('copy'); } catch (e) { /* nulla da fare */ }
+      document.body.removeChild(input);
+      done();
+    }
+  });
+
+  // Tentativo di apertura automatica. Volutamente NON immediato: se l'app non
+  // c'e', un redirect istantaneo mostra solo un errore del browser e l'utente
+  // non vede mai il codice da copiare a mano.
+  setTimeout(function () {
+    window.location.href = deepLink;
+  }, 900);
+})();
+</script>
+</body>
+</html>
