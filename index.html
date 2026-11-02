@@ -3,24 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Grafite Parole — Sfida</title>
+<title>Grafite Parole — Informativa sulla privacy</title>
 <!--
-  Pagina ponte per le sfide, sulla falsariga di quella di Grafite Sudoku.
-
-  A cosa serve: WhatsApp e Telegram non aprono i link con schema custom
-  (grafiteparole://) direttamente. Quindi si condivide un normale link https
-  a questa pagina, e la pagina rimbalza sull'app.
-
-  Come pubblicarla:
-  1. carica questo file su GitHub Pages in una sottocartella "Sfida"
-     (attenzione alle maiuscole: GitHub Pages distingue Sfida da sfida);
-  2. metti l'indirizzo risultante in PuzzleFactory.challengeLinkBase
-     (lib/state/puzzle_factory.dart);
-  3. l'app risponde allo schema grafiteparole:// grazie all'intent-filter in
-     android/app/src/main/AndroidManifest.xml.
-
-  Nessuno script di analisi, nessun cookie, nessuna chiamata esterna: il
-  codice sfida resta nell'URL e non viene mandato a nessun server.
+  Informativa sulla privacy: la radice del sito GitHub Pages di Grafite
+  Parole (vedi README.md), lo stesso che ospita la pagina ponte in Sfida/.
+  L'app la apre da Impostazioni > Informativa sulla privacy, e il suo
+  indirizzo va nella scheda Play Console (Sicurezza dei dati, Contenuti per
+  le famiglie): Play lo chiede anche a un'app che non raccoglie nulla.
 -->
 <style>
   :root {
@@ -35,108 +24,118 @@
   body {
     margin: 0;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+    padding: 40px 20px;
     background: #14181F;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: var(--ink);
+    display: flex;
+    justify-content: center;
   }
   .sheet {
     width: 100%;
-    max-width: 460px;
+    max-width: 640px;
     background: var(--paper);
     border: 1px solid var(--paper-line);
     border-radius: 14px;
-    padding: 28px 24px 24px;
+    padding: 32px 28px 36px;
     box-shadow: 0 18px 40px rgba(0,0,0,.45);
+    line-height: 1.55;
   }
-  h1 { margin: 0 0 4px; font-size: 25px; letter-spacing: .3px; }
-  .tag { margin: 0 0 22px; font-size: 14px; color: var(--ink-soft); }
-  .code-label { font-size: 12px; letter-spacing: 1.3px; text-transform: uppercase;
-    color: var(--ink-soft); font-weight: 700; margin-bottom: 6px; }
-  .code {
-    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    font-size: 19px; font-weight: 700; letter-spacing: 1px;
-    background: rgba(0,0,0,.05);
-    border: 1px dashed var(--paper-line);
-    border-radius: 8px;
-    padding: 12px 14px;
-    word-break: break-all;
-    margin-bottom: 20px;
+  h1 { margin: 0 0 4px; font-size: 24px; letter-spacing: .3px; }
+  .updated { margin: 0 0 26px; font-size: 13px; color: var(--ink-soft); }
+  h2 { font-size: 16px; margin: 28px 0 8px; color: var(--pen); }
+  p { margin: 0 0 12px; font-size: 15px; }
+  ul { margin: 0 0 12px; padding-left: 20px; font-size: 15px; }
+  li { margin-bottom: 6px; }
+  .highlight {
+    background: rgba(60,90,146,.08);
+    border: 1px solid rgba(60,90,146,.25);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 15px;
   }
-  a.button, button {
-    display: block; width: 100%;
-    font: inherit; font-size: 16px; font-weight: 700;
-    text-align: center; text-decoration: none;
-    padding: 15px 16px; border-radius: 10px; border: 0;
-    margin-bottom: 10px; cursor: pointer;
-  }
-  a.primary { background: var(--gold); color: #14181F; }
-  button.ghost { background: transparent; color: var(--pen);
-    border: 1.5px solid var(--pen); }
-  .hint { font-size: 13px; line-height: 1.5; color: var(--ink-soft); margin: 16px 0 0; }
-  .missing { font-size: 15px; line-height: 1.55; }
-  .copied { color: var(--pen); font-weight: 700; }
+  a { color: var(--pen); }
 </style>
 </head>
 <body>
-<div class="sheet" id="sheet"></div>
+<div class="sheet">
+  <h1>Grafite Parole — informativa sulla privacy</h1>
+  <p class="updated">Ultimo aggiornamento: 2 novembre 2026</p>
 
-<script>
-(function () {
-  var params = new URLSearchParams(window.location.search);
-  var code = (params.get('c') || '').trim().toUpperCase();
-  var sheet = document.getElementById('sheet');
+  <p class="highlight">
+    In breve: Grafite Parole non raccoglie, non registra e non trasmette
+    nessun dato personale. Non ci sono account, non c'è pubblicità, non ci
+    sono strumenti di analisi o tracciamento di nessun tipo. Tutto quello
+    che l'app salva resta sul tuo dispositivo.
+  </p>
 
-  if (!code) {
-    sheet.innerHTML =
-      '<h1>Grafite Parole</h1>' +
-      '<p class="missing">Questo link non contiene nessun codice sfida. ' +
-      'Chiedi al tuo amico di rimandartelo.</p>';
-    return;
-  }
+  <h2>Cosa salva l'app, e dove</h2>
+  <p>
+    Le tue preferenze (lingua, carta scelta, formato preferito), le
+    statistiche di gioco (partite vinte, serie della sfida del giorno) e la
+    partita in corso vengono salvate esclusivamente nella memoria locale
+    del tuo telefono o tablet, tramite lo storage standard del sistema
+    operativo. Nessuna di queste informazioni lascia il dispositivo, e
+    nessun server le riceve: non ne esiste uno a cui inviarle.
+  </p>
 
-  var deepLink = 'grafiteparole://sfida?c=' + encodeURIComponent(code);
+  <h2>Cosa NON fa l'app</h2>
+  <ul>
+    <li>Non richiede la creazione di un account.</li>
+    <li>Non mostra pubblicità e non integra reti pubblicitarie.</li>
+    <li>Non include strumenti di analisi, statistica d'uso o tracciamento
+      (nessun SDK di terze parti di questo tipo).</li>
+    <li>Non chiede né utilizza la posizione, i contatti, la fotocamera, il
+      microfono o l'identità del dispositivo.</li>
+    <li>Non ha il permesso Internet: puoi verificarlo tu stesso aprendo la
+      scheda dell'app nelle impostazioni del telefono.</li>
+  </ul>
 
-  sheet.innerHTML =
-    '<h1>Ti hanno sfidato ⚔️</h1>' +
-    '<p class="tag">Stessa griglia, stesso schema. Decide il cronometro.</p>' +
-    '<div class="code-label">Codice sfida</div>' +
-    '<div class="code" id="code">' + code + '</div>' +
-    '<a class="button primary" id="open" href="' + deepLink + '">▶️ Apri in Grafite Parole</a>' +
-    '<button class="ghost" id="copy">📋 Copia il codice</button>' +
-    '<p class="hint">Se non si apre da sola: installa Grafite Parole, ' +
-    'poi copia il codice qui sopra e incollalo in <b>Duello</b> dentro l\'app.</p>';
+  <h2>Le uniche volte che qualcosa esce dal dispositivo</h2>
+  <p>
+    Succede solo se lo decidi tu, in due casi, ed entrambi passano per le
+    funzioni native del tuo telefono, non per un server di Grafite Parole:
+  </p>
+  <ul>
+    <li><b>Sfida a un amico.</b> Se scegli di condividere un codice sfida,
+      l'app apre il pannello di condivisione di sistema (lo stesso che
+      usano tutte le altre app): decidi tu con chi condividerlo e come.</li>
+    <li><b>Segnalazioni e feedback.</b> Se tocchi "Feedback" in
+      Impostazioni, l'app apre la tua app di posta con un'email già
+      compilata verso <a href="mailto:grafitesoft@gmail.com">grafitesoft@gmail.com</a>.
+      Se la invii, ricevo solo quello che scrivi tu in quel momento.</li>
+    <li><b>Recensione e caffè.</b> "Lascia una recensione" apre la scheda
+      dell'app su Google Play; "Offrimi un caffè" apre una pagina PayPal nel
+      tuo browser. In entrambi i casi l'app si limita ad aprire il link: non
+      passa nessun dato.</li>
+  </ul>
 
-  document.getElementById('copy').addEventListener('click', function () {
-    var button = this;
-    var done = function () {
-      button.textContent = '✓ Codice copiato';
-      button.classList.add('copied');
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(code).then(done, done);
-    } else {
-      // Ripiego per i browser vecchi dentro le app di messaggistica.
-      var input = document.createElement('textarea');
-      input.value = code;
-      document.body.appendChild(input);
-      input.select();
-      try { document.execCommand('copy'); } catch (e) { /* nulla da fare */ }
-      document.body.removeChild(input);
-      done();
-    }
-  });
+  <h2>Bambini e famiglie</h2>
+  <p>
+    Proprio perché l'app non raccoglie alcun dato, non mostra pubblicità e
+    non richiede un account, è adatta anche a un pubblico che include
+    minori di 13 anni.
+  </p>
 
-  // Tentativo di apertura automatica. Volutamente NON immediato: se l'app non
-  // c'e', un redirect istantaneo mostra solo un errore del browser e l'utente
-  // non vede mai il codice da copiare a mano.
-  setTimeout(function () {
-    window.location.href = deepLink;
-  }, 900);
-})();
-</script>
+  <h2>Google Play</h2>
+  <p>
+    L'app è distribuita tramite Google Play. Il negozio stesso segue la
+    propria informativa sulla privacy, indipendente da questa.
+  </p>
+
+  <h2>Modifiche a questa informativa</h2>
+  <p>
+    Se qualcosa dovesse cambiare in futuro, questa pagina verrà aggiornata
+    con la nuova data in cima, e — se il cambiamento riguardasse la
+    raccolta dati — l'app lo segnalerebbe chiaramente prima di qualunque
+    aggiornamento.
+  </p>
+
+  <h2>Contatti</h2>
+  <p>
+    Per qualunque domanda su questa informativa:
+    <a href="mailto:grafitesoft@gmail.com">grafitesoft@gmail.com</a>
+  </p>
+</div>
 </body>
 </html>
